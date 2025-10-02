@@ -1,0 +1,10 @@
+# add requirements here
+# pip install -r requirements.txt
+
+fastapi
+uvicorn
+sqlalchemy
+asyncpg
+python-dotenv
+Pillow
+requests
