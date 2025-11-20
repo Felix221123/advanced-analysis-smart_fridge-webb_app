@@ -1,9 +1,10 @@
 # Define your module's routes here
 
 from fastapi import APIRouter
+from . import utils, service, models
+
 
 router = APIRouter()
-from . import utils, service, models
 
 
 @router.get("/")

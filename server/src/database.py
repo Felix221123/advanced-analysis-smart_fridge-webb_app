@@ -2,14 +2,19 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from src import constants
+from src.constants import config
 
 engine = create_engine(
-    constants.config["DATABASE_URL"], echo=True
+    config["DATABASE_URL"],
+    echo=True,
+    pool_pre_ping=True
 )
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine,
+)
 
 def get_db():
     db = SessionLocal()
@@ -17,3 +22,4 @@ def get_db():
         yield db
     finally:
         db.close()
+

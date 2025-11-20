@@ -28,13 +28,30 @@ git clone <YOUR_REPO_URL>.git
 cd <YOUR_REPO_FOLDER>
 ```
 
-### 2) Run the Backend (FastAPI)
+### 2\) Run the Backend (FastAPI)
 
-```bash
-cd server
-pip install -r requirements.txt
-uvicorn src.main:app --reload
-```
+Before running the backend, you should **install and activate a virtual environment** to isolate the project's dependencies.
+
+1.  **Create and Activate a Virtual Environment**
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
+
+    > **Note:** On Windows,you can just type python without the 3 and you would typically use `.\venv\Scripts\activate` to activate the virtual environment.
+
+2.  **Install Dependencies and Run the Server**
+
+    Now that your environment is active, you can install the packages and run the application.
+
+    ```bash
+    cd server
+    pip3 install -r requirements.txt
+    uvicorn src.main:app --reload
+    ```
+     > **Note:** On Windows, you would typically use `pip install -r requirements.txt` to activate the virtual environment.
+
 
 * Server runs on **[http://localhost:8000/](http://localhost:8000/)**
 * Interactive API docs at **[http://localhost:8000/docs](http://localhost:8000/docs)**

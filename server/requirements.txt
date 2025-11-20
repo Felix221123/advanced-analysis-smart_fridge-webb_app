@@ -1,10 +1,8 @@
-# add requirements here
-# pip install -r requirements.txt
-
 fastapi
 uvicorn
 sqlalchemy
 asyncpg
+psycopg2
 python-dotenv
 Pillow
 requests
