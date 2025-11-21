@@ -6,3 +6,6 @@ psycopg2
 python-dotenv
 Pillow
 requests
+passlib
+bcrypt
+argon2-cffi
