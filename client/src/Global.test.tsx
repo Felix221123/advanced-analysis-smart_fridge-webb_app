@@ -1,8 +1,9 @@
 // @ts-expect-error ignore the next line
 import React from 'react'
-import { screen, render } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 import App from './App'
+import { render } from './utils/test-utils'
 
 describe('App Component', () => {
   it('it should display hello world', () => {
