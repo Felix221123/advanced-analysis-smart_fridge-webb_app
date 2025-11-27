@@ -1,12 +1,18 @@
 // @ts-expect-error ignore the next line
 import React from 'react'
+import { ThemeProvider } from 'styled-components'
+import theme from './styles/theme'
 import './App.css'
+import { AuthProvider } from './context/AuthContext'
+import { AppRoute } from './routes/AppRoute'
 
 function App() {
   return (
-    <>
-      <div className="font-bold uppercase">hello world</div>
-    </>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <AppRoute />
+      </ThemeProvider>
+    </AuthProvider>
   )
 }
 
