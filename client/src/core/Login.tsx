@@ -13,6 +13,7 @@ import { LoginRequestProps } from '@/interface/UserProps'
 import { Loading } from '@/components/Loading'
 import { BodyOverlay } from '@/styles/components/Loading.style'
 import { roleRoutes } from '@/constants/roleRoutes'
+import FFSmartIcon from '@/assets/ffsmart.svg'
 
 
 export const Login: React.FC = () => {
@@ -73,10 +74,13 @@ export const Login: React.FC = () => {
     return (
         <>
             <LoginPage>
-                <Header
-                    text='FFSmart Fridge Management'
-                    className='text-center mb-10'
-                />
+                <div className="headingContainer">
+                    <img src={FFSmartIcon} alt="ffsmart icon" />
+                    <Header
+                        text='FFSmart Fridge Management'
+                        className='text-center mb-10'
+                    />
+                </div>
                 <div className="container">
                     <div className="leftSection">
                         <img src={LoginIllustration} alt="login illustration set" />

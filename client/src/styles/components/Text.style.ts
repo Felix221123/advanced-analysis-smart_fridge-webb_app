@@ -1,5 +1,8 @@
 import styled from "styled-components";
-import { fontSize15px, fontSize18px, fontSize24px, fontSize36px } from "../mixin";
+import { 
+  fontSize15px, fontSize18px, 
+  fontSize20px, fontSize24px, fontSize36px 
+} from "../mixin";
 
 
 export const Heading = styled.div`
@@ -17,6 +20,16 @@ export const SubHeading = styled.div`
   color: ${props => props.theme.colors.darkShade};
   font-weight: 600;
   ${fontSize24px};
+
+  @media (max-width: 767px) {
+    ${fontSize18px};
+  }
+`;
+
+export const MiniSubHeading = styled.div`
+  color: ${props => props.theme.colors.darkShade};
+  font-weight: 600;
+  ${fontSize20px};
 
   @media (max-width: 767px) {
     ${fontSize18px};

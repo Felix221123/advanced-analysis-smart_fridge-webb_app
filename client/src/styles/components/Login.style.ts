@@ -3,12 +3,16 @@ import { flex, flexCenter } from "../mixin";
 
 
 
-
-
 export const LoginPage = styled.div`
     width: 100%;
     height: 100%;
-    margin: 5rem auto;
+    margin: 3rem auto;
+
+    > .headingContainer {
+        ${flexCenter('row', 'center')};
+        gap: 2rem;
+        margin-bottom: 2.5rem;
+    }
 
     > .container {
         ${flexCenter('row', 'center')};
