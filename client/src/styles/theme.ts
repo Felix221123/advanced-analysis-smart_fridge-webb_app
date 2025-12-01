@@ -23,6 +23,10 @@ const theme = {
     fonts: {
         poppinsFont: "'Poppins', sans-serif",
     },
+    zIndex: {
+        modal: 2,
+        overlay: 1,
+    },
     breakpoints: {
         mobile: "screen and (max-width: 767px)",
         desktop: "screen and (min-width: 768px)",

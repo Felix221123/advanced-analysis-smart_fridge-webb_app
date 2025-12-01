@@ -13,3 +13,19 @@ export interface TextProps {
     text: string | undefined
     className?: string
 }
+
+// modal for users
+export interface UserModalProps {
+    title: string
+    description: string
+    onClose: () => void
+    newUser: boolean
+}
+
+// modal for items
+export interface ItemModalProps {
+    title: string
+    description: string
+    onClose: () => void
+    newItem: boolean
+}

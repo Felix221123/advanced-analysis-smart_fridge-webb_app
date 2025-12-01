@@ -83,7 +83,7 @@ export const OverLayEffect = css`
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2;
+  z-index: ${props => props.theme.zIndex.overlay};
   cursor: pointer;
   transition: all 0.5s;
 `

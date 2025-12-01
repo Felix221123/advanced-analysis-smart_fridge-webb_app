@@ -2,7 +2,7 @@ import { PanelContainer } from '@/styles/components/Panel.style'
 import React, { useState } from 'react'
 import { MiniSubHeader, SubHeader } from './SubHeader'
 import { useAuth } from '@/context/useAuth'
-import { roleHeading } from '@/constants/roleHeading'
+import { roleHeading, rolePanel } from '@/constants/roleHeading'
 import { Paragraph } from './Paragraph'
 import { AppButton } from './BaseButton'
 import Alert from '@/assets/alert.svg'
@@ -39,7 +39,7 @@ export const Panel: React.FC = () => {
                             className='font-semibold'
                         />
                         <Paragraph
-                            text={`${roleHeading[user?.role as keyof typeof roleHeading] ?? ''} Dashboard`}
+                            text={`${rolePanel[user?.role as keyof typeof rolePanel] ?? ''}`}
                             className='font-light'
                         />
                     </div>

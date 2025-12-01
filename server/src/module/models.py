@@ -169,7 +169,7 @@ class FoodItem(Base):
         nullable=False,
     )
     name = Column(String, nullable=False)
-    unit = Column(String, nullable=False)  # kg, pcs, L
+    unit = Column(String, nullable=False) 
     pack_size = Column(Numeric, nullable=False)
     shelf_life_days = Column(Integer, nullable=False)
     allergens = Column(Text, nullable=True)
