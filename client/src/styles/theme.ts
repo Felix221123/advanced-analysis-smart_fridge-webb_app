@@ -18,14 +18,16 @@ const theme = {
         pastelPurple: "#CFB8D1",
         neutralGrey700: "#737781",
         accentBlue500: "#9BBDDF",
-        accentPeach: "#EEB19F",
+        accentOrange: "#FF6B00",
+        glassmorphism_clr: "rgba(200, 200, 200, 0.05)",
     },
     fonts: {
         poppinsFont: "'Poppins', sans-serif",
     },
     zIndex: {
-        modal: 2,
+        modal: 3,
         overlay: 1,
+        navbar: 2,
     },
     breakpoints: {
         mobile: "screen and (max-width: 767px)",

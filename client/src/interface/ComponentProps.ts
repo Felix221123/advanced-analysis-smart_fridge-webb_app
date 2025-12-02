@@ -29,3 +29,24 @@ export interface ItemModalProps {
     onClose: () => void
     newItem: boolean
 }
+
+
+// product card
+export interface ProductCardProps {
+    name: string;                     
+    quantity: number;                 
+    unit: string;                    
+    category: string;                 
+    supplier: string;                 
+    minStock: number;                 
+    addedBy: string;                  
+    addedAt: string | Date;           
+
+    // Status badges
+    runningLow?: boolean;            
+    expiresInDays?: number | null;  
+
+    // Button callbacks
+    onEdit?: ( ) => void;
+    onRemove?: ( ) => void;
+}

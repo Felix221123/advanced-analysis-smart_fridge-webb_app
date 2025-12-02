@@ -6,11 +6,9 @@ export const NavigationTab = styled.div`
     height: auto;
     background: ${props => props.theme.colors.lightGreyish};
     border-radius: 2rem;
-    margin-top: 2.5rem;
+    margin-top: 1.5rem;
     margin-left:2.5rem;
     padding: 0.5rem;
-
-
     ${flex("row")};
     gap: 1.5rem;
 `;
@@ -18,7 +16,6 @@ export const NavigationTab = styled.div`
 export const NavItem = styled.div`
     ${flexCenter("row", "center")};
     gap: 0.5rem;
-
     padding: 0.55rem 1rem;
     border-radius: 1.5rem;
     font-size: 0.95rem;
