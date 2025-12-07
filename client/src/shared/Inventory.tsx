@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+    CountContainerBox,
     InventoryContainer,
     TabContainer
 } from '@/styles/components/shared.style'
@@ -13,8 +14,7 @@ import SearchIcon from '@/assets/search_icon.svg'
 import CustomSelect, { ObjectSelectOptions } from '@/components/CustomSelect'
 import { roleHeading } from '@/constants/roleHeading'
 import { ProductCard } from '@/components/ProductCard'
-
-
+import { CountContainer } from '@/components/CountContainer'
 
 
 export const Inventory: React.FC = () => {
@@ -24,6 +24,18 @@ export const Inventory: React.FC = () => {
 
     return (
         <>
+            <CountContainerBox>
+                <CountContainer
+                    heading='Total Items'
+                    figures='13'
+                    description='he is here'
+                />
+                <CountContainer
+                    heading='Total Items'
+                    figures='13'
+                    description='he is here'
+                />
+            </CountContainerBox>
             <TabContainer>
                 <InventoryContainer>
                     {/* heading of the inventory dashboard */}
@@ -60,7 +72,8 @@ export const Inventory: React.FC = () => {
                     {/* items in stock */}
                     <div className="stocksContainer">
                         <div className="scrollable">
-                            <ProductCard 
+                            {/* array product map listing here */}
+                            <ProductCard
                                 name='Salmon'
                                 quantity={10}
                                 unit='kg'
@@ -71,8 +84,8 @@ export const Inventory: React.FC = () => {
                                 addedAt='2025-11-22'
                                 runningLow={true}
                                 expiresInDays={3}
-                                onEdit={() => {}}
-                                onRemove={() => {}}
+                                onEdit={() => { }}
+                                onRemove={() => { }}
                             />
                         </div>
                     </div>

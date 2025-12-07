@@ -7,7 +7,6 @@ export const NavigationTab = styled.div`
     background: ${props => props.theme.colors.lightGreyish};
     border-radius: 2rem;
     margin-top: 1.5rem;
-    margin-left:2.5rem;
     padding: 0.5rem;
     ${flex("row")};
     gap: 1.5rem;

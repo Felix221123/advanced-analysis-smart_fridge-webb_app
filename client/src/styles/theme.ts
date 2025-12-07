@@ -19,6 +19,8 @@ const theme = {
         neutralGrey700: "#737781",
         accentBlue500: "#9BBDDF",
         accentOrange: "#FF6B00",
+        lightOrange: "#FFC78F",
+        lightRed: "#FC9F9F",
         glassmorphism_clr: "rgba(200, 200, 200, 0.05)",
     },
     fonts: {

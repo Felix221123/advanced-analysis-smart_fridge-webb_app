@@ -1,6 +1,15 @@
 // mixins object
-import { css } from 'styled-components'
+import { createGlobalStyle, css } from 'styled-components'
 
+interface GlobalStyleProps {
+  lockScroll?: boolean;
+}
+
+export const GlobalStyle = createGlobalStyle<GlobalStyleProps>`
+  body {
+    overflow: ${({ lockScroll }) => (lockScroll ? 'hidden' : 'auto')};
+  }
+`;
 
 export const flexCenter = (direction: string, justify?: string) => css`
   display: flex;
@@ -107,10 +116,10 @@ export const hiddenElementMoreThan1440px = css`
 `
 
 export const SizeofOriginalContentsForDevicesMoreThan1440px = css`
-  @media (min-width:1440px) {
+  @media (min-width:1740px) {
     width: 90rem;
     margin-inline: auto;
-}
+  }
 `
 
 export const backgroundImage = (imageUrl: string) => css`
