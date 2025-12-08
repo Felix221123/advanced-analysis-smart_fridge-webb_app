@@ -50,3 +50,18 @@ export interface ProductCardProps {
     onEdit?: ( ) => void;
     onRemove?: ( ) => void;
 }
+
+// product card on stock container
+export interface StockContainerProductCardProps {
+    name: string;                     
+    quantity: number;  
+    category: string;                 
+    supplier: string;
+    expiryDate: string | Date;
+    expiresInDays?: number | null;
+    minStock: number;  
+    currentStock?: number | null
+    unit: string;  
+
+    container: 'expiringSoon' | 'lowStockItems',
+}

@@ -7,6 +7,7 @@ import {
 import { SubHeader } from './SubHeader'
 import { Paragraph } from './Paragraph'
 import ExpiringSoon from '@/assets/simulate_order.svg'
+import { StockContainerProductCard } from './ProductCard'
 
 // interface for component
 interface StockContainerProps {
@@ -30,7 +31,7 @@ export const StockContainer: React.FC<StockContainerProps> = ({
                     <div className="heading">
                         <div className="tabHeader">
                             <div className="headerIcon">
-                                {container === 'expiringSoon' && <ExpiringSoon />}
+                                {container === 'expiringSoon' && <ExpiringSoonIcon />}
                                 {container === 'lowStockItems' && <LowStockItemsIcon />}
                                 <SubHeader
                                     text={title}
@@ -42,15 +43,86 @@ export const StockContainer: React.FC<StockContainerProps> = ({
                             />
                         </div>
                     </div>
-                </StockBox>
 
-                {/* items in stock */}
-                <div className="stocksContainer">
-                    <div className="scrollable">
-                        {/* array product map listing here */}
-                        <p>hello</p>
+                    {/* items in stock */}
+                    <div className="stocksContainer">
+                        <div className="scrollable">
+                            {/* array product map listing here */}
+                            <StockContainerProductCard
+                                name='Salmon'
+                                quantity={10}
+                                unit='kg'
+                                category='Meat'
+                                supplier='Elmi Cow Center'
+                                expiresInDays={3}
+                                container={container}
+                                expiryDate={'22-11-2025'}
+                                minStock={5}
+                                currentStock={2}
+                            />
+                            <StockContainerProductCard
+                                name='Salmon'
+                                quantity={10}
+                                unit='kg'
+                                category='Meat'
+                                supplier='Elmi Cow Center'
+                                expiresInDays={3}
+                                container={container}
+                                expiryDate={'22-11-2025'}
+                                minStock={5}
+                                currentStock={2}
+                            />
+                            <StockContainerProductCard
+                                name='Salmon'
+                                quantity={10}
+                                unit='kg'
+                                category='Meat'
+                                supplier='Elmi Cow Center'
+                                expiresInDays={3}
+                                container={container}
+                                expiryDate={'22-11-2025'}
+                                minStock={5}
+                                currentStock={2}
+                            />
+                            <StockContainerProductCard
+                                name='Salmon'
+                                quantity={10}
+                                unit='kg'
+                                category='Meat'
+                                supplier='Elmi Cow Center'
+                                expiresInDays={3}
+                                container={container}
+                                expiryDate={'22-11-2025'}
+                                minStock={5}
+                                currentStock={2}
+                            />
+                            <StockContainerProductCard
+                                name='Salmon'
+                                quantity={10}
+                                unit='kg'
+                                category='Meat'
+                                supplier='Elmi Cow Center'
+                                expiresInDays={3}
+                                container={container}
+                                expiryDate={'22-11-2025'}
+                                minStock={5}
+                                currentStock={2}
+                            />
+                            <StockContainerProductCard
+                                name='Salmon'
+                                quantity={10}
+                                unit='kg'
+                                category='Meat'
+                                supplier='Elmi Cow Center'
+                                expiresInDays={3}
+                                container={container}
+                                expiryDate={'22-11-2025'}
+                                minStock={5}
+                                currentStock={2}
+                            />
+                        </div>
                     </div>
-                </div>
+                </StockBox>
             </TabContainer>
         </>
     )
@@ -58,7 +130,7 @@ export const StockContainer: React.FC<StockContainerProps> = ({
 
 
 export const ExpiringSoonIcon = () => {
-    return <img src={ExpiringSoon} alt="items expiring soon" />
+    return <img src={ExpiringSoon} alt="items expiring soon on the menu" />
 }
 
 

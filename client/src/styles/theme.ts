@@ -15,7 +15,7 @@ const theme = {
         accentBlue300: "#109AFE",
         accentBlue400: "#74C3FE",
         darkIndigo: "#1E1D2A",
-        pastelPurple: "#CFB8D1",
+        pastelPurple: "#800080",
         neutralGrey700: "#737781",
         accentBlue500: "#9BBDDF",
         accentOrange: "#FF6B00",

@@ -41,6 +41,35 @@ export const StatusPill = styled.span`
     ${fontSize14px()};
 `;
 
+export const RolePill = styled.span<{ $role?: string }>`
+    padding: 0.3rem 0.7rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    color: ${props => props.theme.colors.whiteClr};
+    ${fontSize14px()};
+    text-transform: uppercase;
+    background-color: ${({ $role, theme }) =>
+        $role === 'HEAD_CHEF'
+            ? theme.colors.pastelPurple
+            : $role === 'CHEF'
+                ? theme.colors.accentBlue300
+                : $role === 'DELIVERY_PERSON'
+                    ? 'green'
+                    : $role === 'ADMIN'
+                        ? theme.colors.greyishBlack
+                        : theme.colors.accentOrange
+    };
+`;
+
+export const StatusPillStockContainerExpiring = styled.span`
+    padding: 0.3rem 0.7rem;
+    border-radius: 0.5rem;
+    background: red;
+    color: ${(props) => props.theme.colors.whiteClr};
+    font-weight: 600;
+    ${fontSize14px()};
+`;
+
 export const InfoRow = styled.div`
     width: 100%;
     ${flex("row")};

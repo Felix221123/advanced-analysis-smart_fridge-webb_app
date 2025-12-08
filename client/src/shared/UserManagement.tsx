@@ -6,10 +6,12 @@ import { AppButton } from '@/components/BaseButton'
 import { UserModal } from '@/components/UserModal'
 import { BodyOverlay } from '@/styles/components/Loading.style'
 import AddUser from '@/assets/User_add.svg'
-
+import { UserCard } from '@/components/UserCard'
+import { useAuth } from '@/context/useAuth'
 
 
 export const UserManagement: React.FC = () => {
+    const { user } = useAuth();
     const [addUser, setAddUser] = useState<boolean>(false);
 
 
@@ -39,6 +41,29 @@ export const UserManagement: React.FC = () => {
                             icon={<AddUserIcon />}
                         />
                     </div>
+
+                    {/* user account */}
+                    <div className="stocksContainer">
+                        <div className="scrollable">
+                            {/* array user card listing here */}
+                            <UserCard
+                                full_name={user?.full_name ?? ''}
+                                email={user?.email ?? ''}
+                                role={user?.role ?? ''}
+                                id={user?.id ?? ''}
+                                onEdit={() => {}}
+                                onRemove={() => {}}
+                            />
+                            <UserCard
+                                full_name={user?.full_name ?? ''}
+                                email={user?.email ?? ''}
+                                role={'HEALTH_SAFETY_OFFICER'}
+                                id={user?.id ?? ''}
+                                onEdit={() => {}}
+                                onRemove={() => {}}
+                            />
+                        </div>
+                    </div>
                 </InventoryContainer>
             </TabContainer>
 
@@ -66,7 +91,7 @@ export const UserManagement: React.FC = () => {
 export const AddUserIcon = () => {
     return (
         <>
-        <img src={AddUser} alt="add user icon" />
+            <img src={AddUser} alt="add user icon" />
         </>
     )
 }
