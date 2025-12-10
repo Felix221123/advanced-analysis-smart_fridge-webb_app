@@ -22,6 +22,8 @@ const theme = {
         lightOrange: "#FFC78F",
         lightRed: "#FC9F9F",
         glassmorphism_clr: "rgba(200, 200, 200, 0.05)",
+        lightYellow:"#FFFBC8",
+        lightGreen: "#BCEBD7"
     },
     fonts: {
         poppinsFont: "'Poppins', sans-serif",

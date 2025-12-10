@@ -1,4 +1,4 @@
-import { ProductCardProps, StockContainerProductCardProps } from '@/interface/ComponentProps'
+import { ProductCardProps, ReorderStockContainerProps, StockContainerProductCardProps } from '@/interface/ComponentProps'
 import {
     ProductCardContainer,
     CardHeader,
@@ -174,6 +174,48 @@ export const StockContainerProductCard: React.FC<StockContainerProductCardProps>
         </>
     )
 }
+
+
+// component for stocks that needs to be reordered
+export const ReOrderStockContainerProductCard: React.FC<ReorderStockContainerProps> = ({
+    name,
+    supplier,
+    minStock,
+    currentStock,
+    unit
+}) => {
+
+
+    return (
+        <>
+            <ProductCardContainer>
+                <CardHeader>
+                    <div className="itemNameContainer">
+                        <Paragraph
+                            text={name}
+                            className='item_name font-bold'
+                        />
+                    </div>
+                </CardHeader>
+
+
+                <InfoRow>
+                    <InfoLabel>Current:</InfoLabel>
+                    <span>{currentStock}{ unit}</span>
+
+                    <InfoLabel>Min Stock:</InfoLabel>
+                    <span>{minStock} { unit}</span>
+                </InfoRow>
+
+                <InfoRow>
+                    <InfoLabel>Supply:</InfoLabel>
+                    <span>{supplier}</span>
+                </InfoRow>
+            </ProductCardContainer>
+        </>
+    )
+}
+
 
 
 export const EditIcon = () => {

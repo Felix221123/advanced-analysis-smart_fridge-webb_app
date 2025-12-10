@@ -65,3 +65,12 @@ export interface StockContainerProductCardProps {
 
     container: 'expiringSoon' | 'lowStockItems',
 }
+
+
+export interface ReorderStockContainerProps {
+    name: string;                     
+    supplier: string;
+    minStock: number;  
+    currentStock?: number | null
+    unit: string;  
+}

@@ -23,6 +23,11 @@ export const Alerts: React.FC = () => {
       <StockContainer
         container='expiringSoon'
         title='Low Stock Items'
+        description='2 Item(s) will expire within 3 days'
+      />
+      <StockContainer
+        container='lowStockItems'
+        title='Low Stock Items'
         description='2 Item(s) are running low and needs to be reordered'
       />
     </>

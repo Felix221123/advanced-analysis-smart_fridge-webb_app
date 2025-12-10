@@ -76,7 +76,7 @@ export const InventoryContainer = styled.div`
     }
 `
 
-export const CountBox = styled.div`
+export const CountBox = styled.div<{ $container?: string }>`
     width: 100%;
     height: 12rem;
     padding: 1.5rem 3rem;
@@ -86,6 +86,15 @@ export const CountBox = styled.div`
     border-radius: 2rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
+    background-color: ${({ $container, theme }) =>
+        $container === 'red'
+            ? theme.colors.lightRed
+            : $container === 'yellow'
+                ? theme.colors.lightYellow
+                : $container === 'green'
+                    ? theme.colors.lightGreen
+                    : theme.colors.whiteClr
+    };
 
     > .bottomBox {
         ${flex('column')};
@@ -145,5 +154,11 @@ export const StockBox = styled.div`
             gap: 0.5rem;
             align-items: flex-start;
         }
+    }
+
+    > .itemsContainer {
+        ${flex("row")};
+        gap: 1.5rem;
+        align-items:center;
     }
 `

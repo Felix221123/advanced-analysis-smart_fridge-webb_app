@@ -2,24 +2,27 @@ import { CountBox } from '@/styles/components/shared.style'
 import React from 'react'
 import { MiniSubHeader, SubHeader } from './SubHeader';
 import { Paragraph } from './Paragraph';
+import { Header } from './Header';
 
 
 interface CountContainerProps {
     heading: string;
     figures: string;
     description?: string;
+    container?: 'red' | 'yellow' | 'green';
 }
 
 
 export const CountContainer: React.FC<CountContainerProps> = ({
     heading,
     figures,
-    description
+    description,
+    container
 }) => {
 
 
     return (
-        <CountBox>
+        <CountBox $container={container}>
             <div className="containerHeading">
                 <MiniSubHeader
                     text={heading}
@@ -27,7 +30,7 @@ export const CountContainer: React.FC<CountContainerProps> = ({
                 />
             </div>
             <div className="bottomBox">
-                <SubHeader
+                <Header
                     text={figures}
                 />
                 <Paragraph

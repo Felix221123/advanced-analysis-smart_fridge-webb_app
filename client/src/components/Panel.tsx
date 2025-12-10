@@ -44,11 +44,6 @@ export const Panel: React.FC = () => {
                         />
                     </div>
                     <div className="profile">
-                        <AppButton
-                            text='Alerts'
-                            icon={<AlertIcon />}
-                            variant="outline"
-                        />
                         <div className="userProfile">
                             <MiniSubHeader
                                 text={user?.full_name}

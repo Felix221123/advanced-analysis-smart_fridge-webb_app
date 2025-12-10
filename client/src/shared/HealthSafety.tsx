@@ -1,9 +1,8 @@
-import { CountContainer } from '@/components/CountContainer'
-import { CountContainerBox, TabContainer } from '@/styles/components/shared.style'
 import React from 'react'
-
-
-
+import { CountContainer } from '@/components/CountContainer'
+import { CountContainerBox, StockBox, TabContainer } from '@/styles/components/shared.style'
+import { SubHeader } from '@/components/SubHeader'
+import { Paragraph } from '@/components/Paragraph'
 
 
 
@@ -14,27 +13,66 @@ export const HealthSafety: React.FC = () => {
     <>
       <CountContainerBox>
         <CountContainer
-          heading='Total Items'
+          heading='Compliance Score'
           figures='13'
-          description='he is here'
+          description='Overall food Safety'
         />
         <CountContainer
-          heading='Total Items'
+          heading='Compliance Items'
           figures='13'
-          description='he is here'
+          description='Within safe dates'
         />
         <CountContainer
-          heading='Total Items'
+          heading='Expiring soon'
           figures='13'
-          description='he is here'
+          description='Within 7 days '
         />
         <CountContainer
-          heading='Total Items'
+          heading='Expired Items'
           figures='13'
-          description='he is here'
+          description='Past expiry date'
         />
       </CountContainerBox>
-      <TabContainer></TabContainer>
+      <TabContainer>
+        <StockBox>
+          <div className="heading">
+            <div className="tabHeader">
+              <div className="headerIcon">
+                <SubHeader
+                  text='Food Safety Overview'
+                  className='font-bold'
+                />
+              </div>
+              <Paragraph
+                text='Current Status of all items in the fridge'
+              />
+            </div>
+          </div>
+
+          {/* item header in containers */}
+          <div className="itemsContainer">
+            <CountContainer 
+                heading='Safe to Use'
+                figures='1'
+                container='green'
+                description='Items in good condition'
+            />
+            <CountContainer 
+                heading='Use Soon'
+                figures='3'
+                container='yellow'
+                description='Expiring within 7 days'
+            />
+            <CountContainer 
+                heading='Remove'
+                figures='0'
+                container='red'
+                description='Past expiry date'
+            />
+          </div>
+          
+        </StockBox>
+      </TabContainer>
     </>
   )
 }
