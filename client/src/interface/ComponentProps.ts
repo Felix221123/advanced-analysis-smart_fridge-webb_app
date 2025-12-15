@@ -49,6 +49,8 @@ export interface ProductCardProps {
     // Button callbacks
     onEdit?: ( ) => void;
     onRemove?: ( ) => void;
+
+    onButton: boolean
 }
 
 // product card on stock container
@@ -63,7 +65,7 @@ export interface StockContainerProductCardProps {
     currentStock?: number | null
     unit: string;  
 
-    container: 'expiringSoon' | 'lowStockItems',
+    container: 'expiringSoon' | 'lowStockItems' | 'complianceItems' | 'expired',
 }
 
 

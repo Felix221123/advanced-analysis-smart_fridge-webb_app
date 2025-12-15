@@ -16,9 +16,11 @@ export const TabContainer = styled.div<{ $container?: string }>`
     background-color: ${({ $container, theme }) =>
         $container === 'expiringSoon'
             ? theme.colors.lightOrange
-            : $container === 'lowStockItems'
+            : $container === 'lowStockItems' || $container === 'expired'
                 ? theme.colors.lightRed
-                : theme.colors.lightGreyish
+                : $container === 'complianceItems'
+                    ? theme.colors.lightGreen
+                        : theme.colors.lightGreyish
     };
     border-radius: 1.5rem;
 `
@@ -160,5 +162,71 @@ export const StockBox = styled.div`
         ${flex("row")};
         gap: 1.5rem;
         align-items:center;
+    }
+
+    > .buttonContainer {
+        ${flex("row")};
+        gap: 1.5rem;
+        align-items:center;
+    }
+`
+
+export const DeliveryPersonOuterContainer = styled.div`
+    ${flexCenter('column', 'center')};
+    margin-bottom: 2rem;
+`
+
+export const DeliveryPersonContainer = styled.div`
+    width: 70%;
+    margin-top: 1.5rem;
+    margin-bottom:1rem;
+    border: 1px solid ${props => props.theme.colors.lightGreyish};
+    border-radius: 2rem;
+    padding: 2rem 2rem;
+    ${flex('column')};
+    gap: 1rem;
+
+    > .buttonContainer {
+        ${flex("column")};
+        gap: 1rem;
+        align-items:center;
+    }
+
+    > .deliveryTextSection2 {
+        ${flex("column")};
+        gap: 1rem;
+    }
+    > .deliveryTextSection1 {
+        ${flexCenter("row", 'flex-start')};
+        gap: 1rem;
+    }
+`
+
+export const DoorAccessController = styled.div<{ $doorStatus: boolean }>`
+    width: 100%;
+    height: 5rem;
+    padding: 0.75rem 2rem;
+    background-color: ${props => props.theme.colors.backgroundLight};
+    ${flexCenter('row', 'space-between')};
+    border-radius: 2rem;
+
+
+    > .textSectionStatus{
+        ${flexCenter('row', 'center')};
+        gap: 1rem;
+
+        > .statusBall {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background-color: ${({ $doorStatus }) =>
+            $doorStatus ? 'green'
+                : 'red'
+            }; 
+        }
+
+        > .text {
+            ${flex('column')};
+        }
     }
 `

@@ -14,6 +14,18 @@ export const ModalContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: ${props => props.theme.zIndex.modal};
+
+  > .delete_container {
+    ${flexCenter('column', 'center')};
+    gap: 1.5rem;
+    width: 100%;
+
+    > .buttonContainer{
+      ${flex('row')};
+      width:100%;
+      gap: 1.5rem;
+    }
+  }
 `
 
 export const UserModalContainer = styled.div`

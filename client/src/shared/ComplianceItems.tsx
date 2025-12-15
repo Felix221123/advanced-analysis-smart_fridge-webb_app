@@ -1,8 +1,18 @@
 import React from 'react'
+import { StockContainer } from '@/components/StockContainer'
+
+
+
 
 export const ComplianceItems: React.FC = () => {
     return (
-        <div>ComplianceItems</div>
+        <>
+            <StockContainer
+                container='complianceItems'
+                title='Compliant Items'
+                description='Item(s) that meet food safety standards'
+            />
+        </>
     )
 }
 

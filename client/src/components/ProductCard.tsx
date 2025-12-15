@@ -28,7 +28,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     runningLow,
     expiresInDays,
     onEdit,
-    onRemove
+    onRemove,
+    onButton
 }) => {
 
     return (
@@ -51,19 +52,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                         </div>
                     </div>
 
-                    <ButtonGroup>
-                        <AppButton
-                            variant='outline'
-                            text='Edit'
-                            onClick={onEdit}
-                            icon={<EditIcon />}
-                        />
-                        <AppButton
-                            variant='outline'
-                            text='-  Remove'
-                            onClick={onRemove}
-                        />
-                    </ButtonGroup>
+                    {
+                        onButton && (
+                            <ButtonGroup>
+                                <AppButton
+                                    variant='outline'
+                                    text='Edit'
+                                    onClick={onEdit}
+                                    icon={<EditIcon />}
+                                />
+                                <AppButton
+                                    variant='outline'
+                                    text='-  Remove'
+                                    onClick={onRemove}
+                                />
+                            </ButtonGroup>
+                        )
+                    }
                 </CardHeader>
 
                 {/* INFO ROWS */}
@@ -130,7 +135,7 @@ export const StockContainerProductCard: React.FC<StockContainerProductCardProps>
                 {/* INFO ROWS */}
                 <InfoRow>
                     {
-                        container === 'expiringSoon' && (
+                        container !== 'lowStockItems' && (
                             <>
                                 <InfoLabel>Quantity:</InfoLabel>
                                 <span>{quantity} {unit}</span>
@@ -147,7 +152,7 @@ export const StockContainerProductCard: React.FC<StockContainerProductCardProps>
                     }
 
                     {
-                        container === 'expiringSoon' && (
+                        container !== 'lowStockItems' && (
                             <>
                                 <InfoLabel>Expiry Date:</InfoLabel>
                                 <span>{expiryDate ? new Date(expiryDate).toLocaleDateString() : 'N/A'}</span>
@@ -201,10 +206,10 @@ export const ReOrderStockContainerProductCard: React.FC<ReorderStockContainerPro
 
                 <InfoRow>
                     <InfoLabel>Current:</InfoLabel>
-                    <span>{currentStock}{ unit}</span>
+                    <span>{currentStock}{unit}</span>
 
                     <InfoLabel>Min Stock:</InfoLabel>
-                    <span>{minStock} { unit}</span>
+                    <span>{minStock} {unit}</span>
                 </InfoRow>
 
                 <InfoRow>

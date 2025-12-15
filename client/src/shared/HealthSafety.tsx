@@ -3,6 +3,10 @@ import { CountContainer } from '@/components/CountContainer'
 import { CountContainerBox, StockBox, TabContainer } from '@/styles/components/shared.style'
 import { SubHeader } from '@/components/SubHeader'
 import { Paragraph } from '@/components/Paragraph'
+import { AppButton } from '@/components/BaseButton'
+import Download from '@/assets/download.svg'
+
+
 
 
 
@@ -51,29 +55,50 @@ export const HealthSafety: React.FC = () => {
 
           {/* item header in containers */}
           <div className="itemsContainer">
-            <CountContainer 
-                heading='Safe to Use'
-                figures='1'
-                container='green'
-                description='Items in good condition'
+            <CountContainer
+              heading='Safe to Use'
+              figures='1'
+              container='green'
+              description='Items in good condition'
             />
-            <CountContainer 
-                heading='Use Soon'
-                figures='3'
-                container='yellow'
-                description='Expiring within 7 days'
+            <CountContainer
+              heading='Use Soon'
+              figures='3'
+              container='yellow'
+              description='Expiring within 7 days'
             />
-            <CountContainer 
-                heading='Remove'
-                figures='0'
-                container='red'
-                description='Past expiry date'
+            <CountContainer
+              heading='Remove'
+              figures='0'
+              container='red'
+              description='Past expiry date'
             />
           </div>
-          
+          <div className="buttonContainer">
+            <AppButton
+              text='Download Food Safety Report'
+              fullWidth={true}
+              icon={<DownloadIcon />}
+            />
+            <AppButton
+              text='Download Inventory Report'
+              fullWidth={true}
+              variant='outline'
+            />
+          </div>
+
         </StockBox>
       </TabContainer>
     </>
   )
 }
 
+
+
+
+
+export const DownloadIcon = () => {
+  return (
+    <img src={Download} alt="download icon" />
+  )
+}

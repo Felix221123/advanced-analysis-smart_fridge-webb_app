@@ -8,11 +8,12 @@ import { BodyOverlay } from '@/styles/components/Loading.style'
 import AddUser from '@/assets/User_add.svg'
 import { UserCard } from '@/components/UserCard'
 import { useAuth } from '@/context/useAuth'
-
+import { DeleteModal } from '@/components/DeleteModal'
 
 export const UserManagement: React.FC = () => {
     const { user } = useAuth();
     const [addUser, setAddUser] = useState<boolean>(false);
+    const [removeUser, setRemoveUser] = useState<boolean>(false);
 
 
 
@@ -51,16 +52,16 @@ export const UserManagement: React.FC = () => {
                                 email={user?.email ?? ''}
                                 role={user?.role ?? ''}
                                 id={user?.id ?? ''}
-                                onEdit={() => {}}
-                                onRemove={() => {}}
+                                onEdit={() => { }}
+                                onRemove={() => setRemoveUser(true)}
                             />
                             <UserCard
                                 full_name={user?.full_name ?? ''}
                                 email={user?.email ?? ''}
                                 role={'HEALTH_SAFETY_OFFICER'}
                                 id={user?.id ?? ''}
-                                onEdit={() => {}}
-                                onRemove={() => {}}
+                                onEdit={() => { }}
+                                onRemove={() => setRemoveUser(true)}
                             />
                         </div>
                     </div>
@@ -71,6 +72,8 @@ export const UserManagement: React.FC = () => {
 
             {/* modal containers */}
             {addUser && <BodyOverlay />}
+            {removeUser && <BodyOverlay />}
+
             {
                 addUser && (
                     <UserModal
@@ -81,6 +84,13 @@ export const UserManagement: React.FC = () => {
                     />
                 )
             }
+
+            {removeUser && (
+                <DeleteModal
+                    container='user'
+                    onClose={() => setRemoveUser(false)}
+                />
+            )}
         </>
     )
 }

@@ -15,10 +15,12 @@ import CustomSelect, { ObjectSelectOptions } from '@/components/CustomSelect'
 import { roleHeading } from '@/constants/roleHeading'
 import { ProductCard } from '@/components/ProductCard'
 import { CountContainer } from '@/components/CountContainer'
+import { DeleteModal } from '@/components/DeleteModal'
 
 
 export const Inventory: React.FC = () => {
     const [addItem, setAddItem] = useState<boolean>(false);
+    const [removeItem, setRemoveItem] = useState<boolean>(false);
     // const [searchQuery, setSearchQuery] = useState<string>('')
 
 
@@ -84,8 +86,9 @@ export const Inventory: React.FC = () => {
                                 addedAt='2025-11-22'
                                 runningLow={true}
                                 expiresInDays={3}
-                                onEdit={() => { }}
-                                onRemove={() => { }}
+                                onEdit={() => {}}
+                                onRemove={() => setRemoveItem(true)}
+                                onButton={true}
                             />
                         </div>
                     </div>
@@ -102,7 +105,14 @@ export const Inventory: React.FC = () => {
                     newItem={true}
                 />
             )}
+            {removeItem && (
+                <DeleteModal
+                    container='item'
+                    onClose={() => setRemoveItem(false)}
+                />
+            )}
             {addItem && <BodyOverlay />}
+            {removeItem && <BodyOverlay />}
         </>
     )
 }
