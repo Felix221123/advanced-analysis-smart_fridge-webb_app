@@ -1,6 +1,6 @@
 import { CountBox } from '@/styles/components/shared.style'
 import React from 'react'
-import { MiniSubHeader, SubHeader } from './SubHeader';
+import { MiniSubHeader } from './SubHeader';
 import { Paragraph } from './Paragraph';
 import { Header } from './Header';
 

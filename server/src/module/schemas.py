@@ -6,7 +6,7 @@ from datetime import datetime, date
 from typing import Optional, Any
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 from .models import (
     UserRole,
@@ -27,6 +27,13 @@ class RestaurantBase(BaseModel):
 
 class RestaurantCreate(RestaurantBase):
     pass
+
+class RestaurantOption(BaseModel):
+    id: UUID
+    name: str
+
+    class Config:
+        from_attributes = True
 
 
 class RestaurantRead(RestaurantBase):
@@ -50,6 +57,22 @@ class UserCreate(UserBase):
     restaurant_id: UUID
     password: str  # plain password from client; hash it in service layer
 
+
+class UserOption(BaseModel):
+    id: UUID
+    full_name: str
+    email: str
+    role: UserRole
+    restaurant_id: UUID
+    is_active: bool = True
+
+class UserUpdate(BaseModel):
+    full_name: Optional[str] = None
+    email: Optional[str] = None
+    role: Optional[str] = None
+    restaurant_id: Optional[UUID] = None
+    is_active: Optional[bool] = None
+    password: Optional[str] = None
 
 class UserRead(UserBase):
     id: UUID

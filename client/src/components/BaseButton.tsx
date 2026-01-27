@@ -10,6 +10,7 @@ interface CommonButtonProps {
     variant?: "primary" | "secondary" | "outline" | "success";
     fullWidth?: boolean;
     type?: "button" | "submit" | "reset";
+    disabled?: boolean;
 }
 
 
@@ -35,6 +36,7 @@ export const AppButton: React.FC<CommonButtonProps> = ({
     variant = "primary",
     fullWidth = false,
     type = "button",
+    disabled = false
 }) => {
     return (
         <BaseButton
@@ -43,6 +45,7 @@ export const AppButton: React.FC<CommonButtonProps> = ({
             fullWidth={fullWidth}
             type={type}
             data-testid="app-button"
+            disabled={disabled}
         >
             {icon && <span>{icon}</span>}
             {text}
