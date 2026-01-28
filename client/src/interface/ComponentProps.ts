@@ -1,4 +1,8 @@
 // component props
+import { CreateUserProps } from "./UserProps";
+
+
+
 export interface ButtonProps {
     text: string
     onClick?: () => void
@@ -20,6 +24,10 @@ export interface UserModalProps {
     description: string
     onClose: () => void
     newUser: boolean
+    onSuccess?: () => void
+
+    selectedUserId?: string;
+    initialValues?: Partial<CreateUserProps>;
 }
 
 // modal for items
@@ -33,46 +41,46 @@ export interface ItemModalProps {
 
 // product card
 export interface ProductCardProps {
-    name: string;                     
-    quantity: number;                 
-    unit: string;                    
-    category: string;                 
-    supplier: string;                 
-    minStock: number;                 
-    addedBy: string;                  
-    addedAt: string | Date;           
+    name: string;
+    quantity: number;
+    unit: string;
+    category: string;
+    supplier: string;
+    minStock: number;
+    addedBy: string;
+    addedAt: string | Date;
 
     // Status badges
-    runningLow?: boolean;            
-    expiresInDays?: number | null;  
+    runningLow?: boolean;
+    expiresInDays?: number | null;
 
     // Button callbacks
-    onEdit?: ( ) => void;
-    onRemove?: ( ) => void;
+    onEdit?: () => void;
+    onRemove?: () => void;
 
     onButton: boolean
 }
 
 // product card on stock container
 export interface StockContainerProductCardProps {
-    name: string;                     
-    quantity: number;  
-    category: string;                 
+    name: string;
+    quantity: number;
+    category: string;
     supplier: string;
     expiryDate: string | Date;
     expiresInDays?: number | null;
-    minStock: number;  
+    minStock: number;
     currentStock?: number | null
-    unit: string;  
+    unit: string;
 
     container: 'expiringSoon' | 'lowStockItems' | 'complianceItems' | 'expired',
 }
 
 
 export interface ReorderStockContainerProps {
-    name: string;                     
+    name: string;
     supplier: string;
-    minStock: number;  
+    minStock: number;
     currentStock?: number | null
-    unit: string;  
+    unit: string;
 }

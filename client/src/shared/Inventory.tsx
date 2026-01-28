@@ -109,6 +109,7 @@ export const Inventory: React.FC = () => {
                 <DeleteModal
                     container='item'
                     onClose={() => setRemoveItem(false)}
+                    targetId=''
                 />
             )}
             {addItem && <BodyOverlay />}
