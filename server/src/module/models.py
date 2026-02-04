@@ -180,6 +180,7 @@ class FoodItem(Base):
         ForeignKey("supplier.id", ondelete="SET NULL"),
         nullable=True,
     )
+    is_active = Column(Boolean, default=True, nullable=False)
     notes = Column(Text, nullable=True)
 
     restaurant = relationship("Restaurant")
@@ -244,7 +245,7 @@ class FridgeStock(Base):
         ForeignKey("item_batch.id", ondelete="CASCADE"),
         nullable=False,
     )
-    qty_current = Column(Integer, nullable=False)
+    qty_current = Column(Numeric, nullable=False)
     first_inserted_at = Column(DateTime(timezone=True), default=datetime.utcnow, nullable=False)
     last_updated_at = Column(DateTime(timezone=True), default=datetime.utcnow, nullable=False)
 
@@ -268,7 +269,14 @@ class Delivery(Base):
         nullable=True,
     )
     notes = Column(Text, nullable=True)
+    supply_order_id = Column(
+    PGUUID(as_uuid=True),
+    ForeignKey("supply_order.id", ondelete="SET NULL"),
+    nullable=True,
+)
 
+    # optional relationship:
+    supply_order = relationship("SupplyOrder")
     restaurant = relationship("Restaurant")
     delivered_by = relationship("User", back_populates="deliveries")
     inventory_movements = relationship("InventoryMovement", back_populates="delivery")
@@ -289,7 +297,7 @@ class InventoryMovement(Base):
         nullable=False,
     )
     action_type = Column(SAEnum(InventoryActionType, name="inventory_action_type"), nullable=False)
-    quantity = Column(Integer, nullable=False)
+    quantity = Column(Numeric, nullable=False)
     performed_by_user_id = Column(
         PGUUID(as_uuid=True),
         ForeignKey("user.id", ondelete="SET NULL"),
@@ -389,4 +397,79 @@ class Notification(Base):
     meta = Column(JSONB, nullable=False, default=dict)
 
     user = relationship("User", back_populates="notifications")
+
+
+
+# ---------- Enums ----------
+class SupplyOrderStatus(str, Enum):
+    PENDING = "PENDING"
+    SENT = "SENT"
+    PARTIALLY_DELIVERED = "PARTIALLY_DELIVERED"
+    DELIVERED = "DELIVERED"
+    CANCELLED = "CANCELLED"
+
+
+class SupplyOrder(Base):
+    __tablename__ = "supply_order"
+
+    id = Column(PGUUID(as_uuid=True), primary_key=True, default=uuid4)
+
+    restaurant_id = Column(
+        PGUUID(as_uuid=True),
+        ForeignKey("restaurant.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+
+    supplier_id = Column(
+        PGUUID(as_uuid=True),
+        ForeignKey("supplier.id", ondelete="RESTRICT"),
+        nullable=False,
+    )
+
+    created_by_user_id = Column(
+        PGUUID(as_uuid=True),
+        ForeignKey("user.id", ondelete="SET NULL"),
+        nullable=True,
+    )
+
+    status = Column(SAEnum(SupplyOrderStatus, name="supply_order_status"), nullable=False, default=SupplyOrderStatus.PENDING)
+
+    created_at = Column(DateTime(timezone=True), default=datetime.utcnow, nullable=False)
+    sent_at = Column(DateTime(timezone=True), nullable=True)
+    delivered_at = Column(DateTime(timezone=True), nullable=True)
+    notes = Column(Text, nullable=True)
+
+    restaurant = relationship("Restaurant")
+    supplier = relationship("Supplier")
+    created_by = relationship("User")
+    items = relationship("SupplyOrderItem", back_populates="order", cascade="all, delete-orphan")
+
+
+class SupplyOrderItem(Base):
+    __tablename__ = "supply_order_item"
+
+    id = Column(PGUUID(as_uuid=True), primary_key=True, default=uuid4)
+
+    supply_order_id = Column(
+        PGUUID(as_uuid=True),
+        ForeignKey("supply_order.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+
+    food_item_id = Column(
+        PGUUID(as_uuid=True),
+        ForeignKey("food_item.id", ondelete="RESTRICT"),
+        nullable=False,
+    )
+
+    qty_requested = Column(Numeric, nullable=False)
+    qty_delivered = Column(Numeric, nullable=False, default=0)
+    unit_price = Column(Numeric, nullable=True)
+
+    created_at = Column(DateTime(timezone=True), default=datetime.utcnow, nullable=False)
+
+    order = relationship("SupplyOrder", back_populates="items")
+    food_item = relationship("FoodItem")
+
+
 

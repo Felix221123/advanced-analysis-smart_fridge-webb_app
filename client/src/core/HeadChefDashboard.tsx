@@ -25,7 +25,7 @@ export const HeadChefDashboard: React.FC = () => {
 
     const navList = [
         { key: "INVENTORY", label: "Inventory", icon: INVENTORY_ICON },
-        { key: "ALERTS", label: "Alerts", icon: ALERT_ICON, badge: 7 },
+        { key: "ALERTS", label: "Alerts", icon: ALERT_ICON },
         { key: "ORDERS", label: "Orders", icon: ORDER_ICON },
         { key: "USER_MANAGEMENT", label: "User Management", icon: USER_ICON },
         { key: "HEALTH_SAFETY", label: "Health & Safety", icon: SAFETY_ICON },
@@ -43,8 +43,6 @@ export const HeadChefDashboard: React.FC = () => {
                         <img src={item.icon} alt={`${item.label} icon`} />
 
                         <span>{item.label}</span>
-
-                        {item.badge && <NavBadge>{item.badge}</NavBadge>}
                     </NavItem>
                 ))}
             </NavigationTab>

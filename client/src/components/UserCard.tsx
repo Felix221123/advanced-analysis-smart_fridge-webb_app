@@ -66,17 +66,7 @@ export const UserCard: React.FC<UserCardProps> = ({
 
                 {/* permissions */}
                 {
-                    role !== roleHeading['DELIVERY_PERSON'] ? (
-                        <>
-                            <InfoRow>
-                                <InfoLabel>Can Insert: </InfoLabel>
-                                <span> Yes </span>
-
-                                <InfoLabel>Can Remove: </InfoLabel>
-                                <span> Yes </span>
-                            </InfoRow>
-                        </>
-                    ) : (
+                    role === 'DELIVERY_PERSON' ? (
                         <>
                             <InfoRow>
                                 <InfoLabel>Can Insert: </InfoLabel>
@@ -84,6 +74,15 @@ export const UserCard: React.FC<UserCardProps> = ({
 
                                 <InfoLabel>Can Remove: </InfoLabel>
                                 <span> No </span>
+                            </InfoRow>
+                        </>
+                    ) : (
+                        <>
+                            <InfoRow>
+                                <InfoLabel>Can Insert: </InfoLabel>
+                                <span> Yes </span>
+                                <InfoLabel>Can Remove: </InfoLabel>
+                                <span> Yes </span>
                             </InfoRow>
                         </>
                     )

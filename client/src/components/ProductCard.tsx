@@ -12,6 +12,16 @@ import React from 'react'
 import { AppButton } from './BaseButton'
 import Edit from '@/assets/edit.svg'
 import { Paragraph } from './Paragraph'
+import { useAuth } from '@/context/useAuth'
+import { expiryLabel } from '@/utils/date'
+
+
+const formatDateTime = (value: string | Date | null | undefined): string => {
+    if (!value) return '—';
+    const d = typeof value === 'string' ? new Date(value) : value;
+    if (Number.isNaN(d.getTime())) return '—';
+    return d.toLocaleString();
+};
 
 
 
@@ -20,17 +30,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     name,
     quantity,
     unit,
-    category,
     supplier,
     minStock,
-    addedBy,
-    addedAt,
+    activityLabel = 'No activity',
+    activityBy,
+    activityAt,
     runningLow,
     expiresInDays,
     onEdit,
     onRemove,
-    onButton
+    onButton,
+    unlock_items
 }) => {
+    const { user } = useAuth();
+
+    const activityTime = formatDateTime(activityAt);
+    const activityPerson = activityBy ?? '—';
+
+    // const showExpiry = typeof expiresInDays === 'number';
+
 
     return (
         <>
@@ -46,26 +64,34 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                             {runningLow && (
                                 <StatusPill>Running Low</StatusPill>
                             )}
-                            {expiresInDays && (
-                                <StatusPill>Expires in {expiresInDays} days</StatusPill>
+                            {typeof expiresInDays === "number" && (
+                                <StatusPill>{expiryLabel(expiresInDays)}</StatusPill>
                             )}
+
                         </div>
                     </div>
 
                     {
                         onButton && (
                             <ButtonGroup>
+                                {
+                                    unlock_items
+                                }
                                 <AppButton
                                     variant='outline'
                                     text='Edit'
                                     onClick={onEdit}
                                     icon={<EditIcon />}
                                 />
-                                <AppButton
-                                    variant='outline'
-                                    text='-  Remove'
-                                    onClick={onRemove}
-                                />
+                                {
+                                    user?.role !== 'DELIVERY_PERSON' && (
+                                        <AppButton
+                                            variant='outline'
+                                            text='-  Remove'
+                                            onClick={onRemove}
+                                        />
+                                    )
+                                }
                             </ButtonGroup>
                         )
                     }
@@ -76,9 +102,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     <InfoLabel>Quantity:</InfoLabel>
                     <span>{quantity} {unit}</span>
 
-                    <InfoLabel>Category:</InfoLabel>
-                    <span>{category}</span>
-
                     <InfoLabel>Supplier:</InfoLabel>
                     <span>{supplier}</span>
 
@@ -88,7 +111,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
                 <InfoRow className="added-by">
                     <span>
-                        Added by {addedBy} on {new Date(addedAt).toLocaleString()}
+                        {activityLabel}: {activityPerson} • {activityTime}
                     </span>
                 </InfoRow>
             </ProductCardContainer>
@@ -102,7 +125,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 export const StockContainerProductCard: React.FC<StockContainerProductCardProps> = ({
     name,
     quantity,
-    category,
     supplier,
     expiryDate,
     expiresInDays,
@@ -123,10 +145,11 @@ export const StockContainerProductCard: React.FC<StockContainerProductCardProps>
                         />
 
                         <div className="status-area">
-                            {container === "expiringSoon" && (
-                                <StatusPill>Expires in {expiresInDays} days</StatusPill>
+                            {container === "expiringSoon" && typeof expiresInDays === "number" && (
+                                <StatusPill>{expiryLabel(expiresInDays)}</StatusPill>
                             )}
-                            {expiresInDays && container === "lowStockItems" && (
+
+                            {container === "lowStockItems" && (
                                 <StatusPillStockContainerExpiring>Low Stock</StatusPillStockContainerExpiring>
                             )}
                         </div>
@@ -155,7 +178,7 @@ export const StockContainerProductCard: React.FC<StockContainerProductCardProps>
                         container !== 'lowStockItems' && (
                             <>
                                 <InfoLabel>Expiry Date:</InfoLabel>
-                                <span>{expiryDate ? new Date(expiryDate).toLocaleDateString() : 'N/A'}</span>
+                                <span>{expiryDate ?? 'N/A'}</span>
                             </>
                         )
                     }
@@ -169,9 +192,6 @@ export const StockContainerProductCard: React.FC<StockContainerProductCardProps>
                     }
                 </InfoRow>
                 <InfoRow>
-                    <InfoLabel>Category:</InfoLabel>
-                    <span>{category}</span>
-
                     <InfoLabel>Supplier:</InfoLabel>
                     <span>{supplier}</span>
                 </InfoRow>
@@ -187,22 +207,43 @@ export const ReOrderStockContainerProductCard: React.FC<ReorderStockContainerPro
     supplier,
     minStock,
     currentStock,
-    unit
+    unit,
+    ordered,
+    orderStatus,
+    orderedFrom,
+    qtyRequested,
+    qtyDelivered,
 }) => {
+
+    const pillText = ordered ? (orderStatus === "SENT" ? "ORDER SENT" :
+        orderStatus === "PARTIALLY_DELIVERED" ? "PART DELIVERED" :
+            "ORDER ISSUED") : "NEEDS ORDER";
+
 
 
     return (
         <>
-            <ProductCardContainer>
+            <ProductCardContainer style={{
+                opacity: ordered ? 0.85 : 1,
+                border: ordered ? "1px solid #d9e6ff" : "1px solid #eee",
+                background: ordered ? "#f6f9ff" : "white",
+            }}>
                 <CardHeader>
                     <div className="itemNameContainer">
-                        <Paragraph
-                            text={name}
-                            className='item_name font-bold'
-                        />
+                        <Paragraph text={name} className="item_name font-bold" />
                     </div>
-                </CardHeader>
 
+                    <span style={{
+                        padding: "6px 10px",
+                        borderRadius: 999,
+                        fontSize: 12,
+                        fontWeight: 700,
+                        border: ordered ? "1px solid #a9c5ff" : "1px solid #ffd39a",
+                        background: ordered ? "#eaf1ff" : "#fff4e5",
+                    }}>
+                        {pillText}
+                    </span>
+                </CardHeader>
 
                 <InfoRow>
                     <InfoLabel>Current:</InfoLabel>
@@ -216,6 +257,17 @@ export const ReOrderStockContainerProductCard: React.FC<ReorderStockContainerPro
                     <InfoLabel>Supply:</InfoLabel>
                     <span>{supplier}</span>
                 </InfoRow>
+
+                {ordered && (
+                    <InfoRow>
+                        <InfoLabel>Ordered:</InfoLabel>
+                        <span>
+                            {qtyRequested ?? "—"}{unit}
+                            {typeof qtyDelivered === "number" ? ` • Delivered: ${qtyDelivered}${unit}` : ""}
+                            {orderedFrom ? ` • ${orderedFrom}` : ""}
+                        </span>
+                    </InfoRow>
+                )}
             </ProductCardContainer>
         </>
     )

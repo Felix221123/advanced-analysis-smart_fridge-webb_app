@@ -10,6 +10,8 @@ import ExpiringSoon from '@/assets/simulate_order.svg'
 import { StockContainerProductCard } from './ProductCard'
 import CheckMark from '@/assets/check_mark.svg'
 import Expired from '@/assets/expired_icon.svg'
+import { AllFoodItemProps } from '@/interface/ComponentProps'
+import { daysUntil, formatDateUK } from '@/utils/date'
 
 
 // interface for component
@@ -17,13 +19,22 @@ interface StockContainerProps {
     container: 'expiringSoon' | 'lowStockItems' | 'complianceItems' | 'expired',
     title: string,
     description: string,
+
+    items: AllFoodItemProps[];
+    loading?: boolean;
+    error?: string | null;
+    emptyText?: string;
 }
 
 
 export const StockContainer: React.FC<StockContainerProps> = ({
     container,
     title,
-    description
+    description,
+    items,
+    loading = false,
+    error = null,
+    emptyText = "No items to display.",
 }) => {
 
 
@@ -54,54 +65,33 @@ export const StockContainer: React.FC<StockContainerProps> = ({
                     <div className="stocksContainer">
                         <div className="scrollable">
                             {/* array product map listing here */}
-                            <StockContainerProductCard
-                                name='Salmon'
-                                quantity={10}
-                                unit='kg'
-                                category='Meat'
-                                supplier='Elmi Cow Center'
-                                expiresInDays={3}
-                                container={container}
-                                expiryDate={'22-11-2025'}
-                                minStock={5}
-                                currentStock={2}
-                            />
-                            <StockContainerProductCard
-                                name='Salmon'
-                                quantity={10}
-                                unit='kg'
-                                category='Meat'
-                                supplier='Elmi Cow Center'
-                                expiresInDays={3}
-                                container={container}
-                                expiryDate={'22-11-2025'}
-                                minStock={5}
-                                currentStock={2}
-                            />
-                            <StockContainerProductCard
-                                name='Salmon'
-                                quantity={10}
-                                unit='kg'
-                                category='Meat'
-                                supplier='Elmi Cow Center'
-                                expiresInDays={3}
-                                container={container}
-                                expiryDate={'22-11-2025'}
-                                minStock={5}
-                                currentStock={2}
-                            />
-                            <StockContainerProductCard
-                                name='Salmon'
-                                quantity={10}
-                                unit='kg'
-                                category='Meat'
-                                supplier='Elmi Cow Center'
-                                expiresInDays={3}
-                                container={container}
-                                expiryDate={'22-11-2025'}
-                                minStock={5}
-                                currentStock={2}
-                            />
+                            {error && <p className="text-sm" style={{ color: "red" }}>{error}</p>}
+                            {loading && <p className="text-sm">Loading...</p>}
+
+                            {!loading && items.length === 0 && (
+                                <p className="text-sm">{emptyText}</p>
+                            )}
+
+                            {!loading && items.map((p) => {
+                                const expiresInDays = daysUntil(p.expiry_date);
+                                const qty = Number(p.qty_total ?? 0);
+                                const min = Number(p.reorder_point ?? 0);
+
+                                return (
+                                    <StockContainerProductCard
+                                        key={p.id}
+                                        name={p.name}
+                                        quantity={qty}
+                                        unit={p.unit}
+                                        supplier={p.supplier_name ?? "—"}
+                                        expiresInDays={expiresInDays ?? undefined}
+                                        container={container}
+                                        expiryDate={formatDateUK(p.expiry_date)}
+                                        minStock={min}
+                                        currentStock={qty}
+                                    />
+                                );
+                            })}
                         </div>
                     </div>
                 </StockBox>

@@ -67,7 +67,7 @@ export const UserModalContainer = styled.div`
 
 export const ItemModalContainer = styled.div`
     ${flexCenter('column', 'center')};
-    gap: 1.5rem;
+    gap: 1rem;
     width: 100%;
 
     > .container {
@@ -83,7 +83,7 @@ export const ItemModalContainer = styled.div`
       > form {
       ${flex('column')};
       align-items: flex-start;
-      gap: 1rem;
+      gap: 0.5rem;
       width: 100%;
 
       > .form-group {

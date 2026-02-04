@@ -5,12 +5,15 @@ import { AppButton } from './BaseButton'
 import { Header } from './Header'
 import { DeleteUserApi } from '@/packages/api/UserApi'
 import { MessageSuccess } from './MessageModal'
+import { DeleteProductApi } from '@/packages/api/ServicesApi'
+
 
 interface DeleteModalProps {
     container: 'user' | 'item';
     targetId: string;
     onClose: () => void;
     onSuccess?: () => void;
+    userId?: string
 }
 
 
@@ -18,7 +21,7 @@ interface DeleteModalProps {
 
 
 export const DeleteModal: React.FC<DeleteModalProps> = ({
-    container, onClose, targetId, onSuccess
+    container, onClose, targetId, onSuccess, userId
 }) => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -28,37 +31,58 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
 
 
     useEffect(() => {
-        if (!success) return;
+        if (!success) return
 
         const timer = setTimeout(() => {
-            setSuccess(false);
+            setSuccess(false)
             onClose()
-        }, 8500);
+        }, 8500)
 
-        return () => clearTimeout(timer);
-    }, [success, onClose]);
-
+        return () => clearTimeout(timer)
+    }, [success, onClose])
 
     const handleDelete = async () => {
-        setLoading(true);
+        setLoading(true)
+        setError('')
 
         try {
-            if (container === 'user') {
-                const response = await DeleteUserApi(targetId);
-                if (response) {
-                    onSuccess?.();
-                    setSuccess(true);
-                }
-            } else if (container === 'item') {
-                setSuccess(true);
+            if (!targetId) {
+                setError('Missing target id.')
+                return
             }
 
+            if (container === 'user') {
+                const response = await DeleteUserApi(targetId)
+                if (response) {
+                    onSuccess?.()
+                    setSuccess(true)
+                }
+                return
+            }
+
+            // / container === 'item'
+            if (!userId) {
+                setError('Missing user id for deleting item.')
+                return
+            }
+
+            const response = await DeleteProductApi(userId, targetId)
+            if (response) {
+                onSuccess?.() // refresh list etc.
+                setSuccess(true)
+            }
         } catch (err: any) {
-            setError(err?.detail || err?.message || `${container == 'user' ? 'Could not delete user' : 'Could not delete item'}`);
+            setError(
+                err?.detail ||
+                err?.message ||
+                (container === 'user'
+                    ? 'Could not delete user'
+                    : 'Could not delete item')
+            )
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
-    };
+    }
 
 
     return (
