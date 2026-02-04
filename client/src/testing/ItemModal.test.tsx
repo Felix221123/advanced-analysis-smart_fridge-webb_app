@@ -14,6 +14,7 @@ describe('Item Modal Component', () => {
             onClose={() => { }}
             description='add new items'
             newItem={true}
+            userId='123456'
         />
         );
 
@@ -30,6 +31,7 @@ describe('Item Modal Component', () => {
             onClose={() => { }}
             description='add new items'
             newItem={true}
+            userId='123456'
         />
         );
 

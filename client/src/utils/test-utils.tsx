@@ -3,13 +3,15 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 import theme from '@/styles/theme';
+import { AuthProvider } from '@/context/AuthContext';
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
     return (
-
-        <ThemeProvider theme={theme}>
-            {children}
-        </ThemeProvider>
+        <AuthProvider>
+            <ThemeProvider theme={theme}>
+                {children}
+            </ThemeProvider>
+        </AuthProvider>
 
     );
 };

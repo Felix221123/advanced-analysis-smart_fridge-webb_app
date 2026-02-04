@@ -9,7 +9,7 @@ import closeBtn from '@/assets/closeBtn.svg'
 import { ItemModalProps } from '@/interface/ComponentProps'
 import { Input } from './Input'
 import { AppButton } from './BaseButton'
-import CustomSelect, { ObjectSelectOptions } from './CustomSelect'
+import CustomSelect from './CustomSelect'
 import { CreateFoodItemProps, EditFoodItemProps, AllFoodItemProps } from '@/interface/ComponentProps'
 import { CreateFoodItemApi, UpdateFoodItemApi, AllProducts } from '@/packages/api/ServicesApi'
 import { useAuth } from '@/context/useAuth'
@@ -217,6 +217,7 @@ export const ItemModal: React.FC<ItemModalProps> = (
                                 required={true}
                                 value={name}
                                 onChange={(e: any) => setName(e.target.value)}
+                                data-testid="itemName"
                             />
                         </div>
 
