@@ -105,18 +105,24 @@ export const ItemModal: React.FC<ItemModalProps> = (
 
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        setError('')
+        e.preventDefault();
+        setError("");
 
         if (!userId) {
-            setError("Missing user id.")
-            return
+            setError("Missing user id.");
+            return;
         }
 
         try {
-            setLoading(true)
+            setLoading(true);
 
-            if (supplierId && newItem && !pricePerUnit) {
+            if (newItem) {
+                // if supplier chosen, price must be provided
+                if (supplierId && !pricePerUnit.trim()) {
+                    setError("Please enter a price per unit for the selected supplier.");
+                    return;
+                }
+
                 const payload: CreateFoodItemProps = {
                     user_id: userId,
                     name: name.trim(),
@@ -136,55 +142,49 @@ export const ItemModal: React.FC<ItemModalProps> = (
                     expiry_date: expiryDate,
                     produced_at: producedAt || undefined,
                     qty_initial: Number(qty),
-                }
-
-
-                const created: AllFoodItemProps = await CreateFoodItemApi(payload)
-                onSuccess?.(created?.name || "Item")
-            } else {
-                if (!selectedProduct) throw new Error('No product selected for editing.')
-
-                const editPayload: EditFoodItemProps = {
-                    user_id: userId,
-                    food_item_id: selectedProduct.id,
-
-                    name: name.trim(),
-                    unit: unit.trim(),
-                    pack_size: Number(packSize),
-                    shelf_life_days: Number(shelfLifeDays),
-                    allergens: allergens || null,
-                    reorder_point: Number(reorderPoint),
-                    reorder_qty: Number(reorderQty),
-                    notes: notes || null,
-
-                    item_batch_id: selectedProduct.item_batch_id || null,
-                    new_qty: qty ? Number(qty) : null,
-
-                    // set default supplier (no price required)
-                    default_supplier_id: supplierId || null,
-
-                    // update supplier link ONLY if price provided (avoids backend validation error)
-                    ...(supplierId && pricePerUnit
-                        ? {
-                            supplier_id: supplierId,
-                            price_per_unit: Number(pricePerUnit),
-                            is_primary: true,
-                        }
-                        : {}),
                 };
 
-
-                const updated: AllFoodItemProps = await UpdateFoodItemApi(editPayload)
-                onSuccess?.(updated?.name || "Item")
+                const created: AllFoodItemProps = await CreateFoodItemApi(payload);
+                onSuccess?.(created?.name || "Item");
+                onClose();
+                return;
             }
 
-            onClose()
+
+            if (!selectedProduct) throw new Error("No product selected for editing.");
+
+            const editPayload: EditFoodItemProps = {
+                user_id: userId,
+                food_item_id: selectedProduct.id,
+
+                name: name.trim(),
+                unit: unit.trim(),
+                pack_size: Number(packSize),
+                shelf_life_days: Number(shelfLifeDays),
+                allergens: allergens || null,
+                reorder_point: Number(reorderPoint),
+                reorder_qty: Number(reorderQty),
+                notes: notes || null,
+
+                item_batch_id: selectedProduct.item_batch_id || null,
+                new_qty: qty ? Number(qty) : null,
+
+                default_supplier_id: supplierId || null,
+
+                ...(supplierId && pricePerUnit
+                    ? { supplier_id: supplierId, price_per_unit: Number(pricePerUnit), is_primary: true }
+                    : {}),
+            };
+
+            const updated: AllFoodItemProps = await UpdateFoodItemApi(editPayload);
+            onSuccess?.(updated?.name || "Item");
+            onClose();
         } catch (err: any) {
-            setError(err?.detail || err?.message || 'Something went wrong.')
+            setError(err?.detail || err?.message || "Something went wrong.");
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     const readOnlyBatchFields = !newItem
 
@@ -371,7 +371,8 @@ export const ItemModal: React.FC<ItemModalProps> = (
                                     type="number"
                                     placeholder="eg 6.20"
                                     className="text-left"
-                                    required={newItem} // required on create if supplier selected
+                                    required={newItem && !!supplierId} 
+                                    disabled={!supplierId}
                                     value={pricePerUnit}
                                     onChange={(e: any) => setPricePerUnit(e.target.value)}
                                 />

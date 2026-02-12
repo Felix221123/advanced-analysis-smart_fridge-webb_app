@@ -35,10 +35,68 @@ export const UserModal: React.FC<UserModalProps> = ({
     const [loading, setLoading] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
 
+    const [fieldErrors, setFieldErrors] = useState<{ full_name?: string }>({});
+
+    const FULL_NAME_ALLOWED = /^[\p{L}\s'-]*$/u;
+
+
+    const FULL_NAME_VALID = /^[\p{L}]+(?:[\s'-][\p{L}]+)*$/u;
+
+    const normalise = (s: string) => s.replace(/\s+/g, " ").trim();
+
+    const stripDiacritics = (s: string) =>
+        s.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+
+    const validateFullName = (raw: string): string | null => {
+        const name = normalise(raw);
+
+        if (!name) return "Full name is required.";
+        if (!FULL_NAME_ALLOWED.test(name)) return "Enter an appropriate name (letters only).";
+
+        const parts = name.split(" ").filter(Boolean);
+
+        if (parts.length < 2) return "Please enter a first and last name.";
+        if (parts.length > 4) return "Please enter a valid full name (2–4 words).";
+        if (name.length > 60) return "Name is too long.";
+
+        // 4 repeated letters in a row (e.g., aaaa, zzzz)
+        if (/(.)\1\1\1/u.test(stripDiacritics(name))) {
+            return "Please enter a valid name.";
+        }
+
+        for (const p of parts) {
+            const part = p.replace(/['-]/g, ""); // ignore separators inside a part
+            if (part.length < 2) return "Each name must be at least 2 letters.";
+            if (part.length > 30) return "A name part is too long.";
+
+            // vowel check (skip for very short words like Ng, Li)
+            const clean = stripDiacritics(part).toLowerCase();
+            if (clean.length > 2 && !/[aeiouy]/.test(clean)) {
+                return "Please enter a valid name.";
+            }
+        }
+
+        return null;
+    };
+
+
     // Handle form field change
     const handleChange = (field: keyof CreateUserProps, value: string | boolean) => {
+        if (field === "full_name" && typeof value === "string") {
+            // block disallowed characters immediately
+            if (!FULL_NAME_ALLOWED.test(value)) {
+                setFieldErrors((prev) => ({ ...prev, full_name: "Enter an appropriate name (letters only)." }));
+                return;
+            }
+
+            // run plausibility validation (shows message but still lets them type)
+            const msg = validateFullName(value);
+            setFieldErrors((prev) => ({ ...prev, full_name: msg ?? undefined }));
+        }
+
         setUser((prev) => ({ ...prev, [field]: value }));
     };
+
 
     // Pre-fill when editing
     useEffect(() => {
@@ -81,10 +139,25 @@ export const UserModal: React.FC<UserModalProps> = ({
         setLoading(true);
         setSuccess(false);
 
+        const nameTrimmed = user.full_name.trim();
+        if (!FULL_NAME_VALID.test(nameTrimmed)) {
+            setFieldErrors((prev) => ({
+                ...prev,
+                full_name: "Enter an appropriate name (letters only).",
+            }));
+            return;
+        }
+
+        const msg = validateFullName(user.full_name);
+        if (msg) {
+            setFieldErrors((prev) => ({ ...prev, full_name: msg }));
+            return;
+        }
+
         try {
             if (newUser) {
                 const my_form = {
-                    full_name: user.full_name,
+                    full_name: nameTrimmed,
                     email: user.email,
                     role: user.role,
                     is_active: true,
@@ -104,7 +177,7 @@ export const UserModal: React.FC<UserModalProps> = ({
 
                 // Update payload: send only what backend expects
                 const updatePayload: any = {
-                    full_name: user.full_name,
+                    full_name: nameTrimmed,
                     email: user.email,
                     role: user.role,
                     restaurant_id: user.restaurant_id,
@@ -178,6 +251,11 @@ export const UserModal: React.FC<UserModalProps> = ({
                                             value={user.full_name}
                                             onChange={(e) => handleChange("full_name", e.target.value)}
                                         />
+                                        {fieldErrors.full_name && (
+                                            <p style={{ color: "red", marginTop: "6px" }} className="text-sm">
+                                                {fieldErrors.full_name}
+                                            </p>
+                                        )}
                                     </div>
                                     <div className="form-group">
                                         <Paragraph
